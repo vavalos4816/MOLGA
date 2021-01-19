@@ -1,0 +1,119 @@
+body, html{
+  height:100%;
+}
+body {
+  background-image: url("../img/background.png");
+  background-size: cover;
+  font-family: Arial;
+  text-align: center;
+  margin: auto;
+}
+#main {
+	display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+#form-container input {
+	width: 100%;
+    border: none;
+    border-bottom: 1px solid #f3f4f8;
+    text-align: center;
+    padding: 16px 2px;
+    font-weight: bold;
+    background-color: transparent;
+}
+#form-container input:focus, #form-container button:focus {
+	outline: none;
+}
+#form-container button {
+	margin-top: 16px;
+    color: #502f8b;
+    margin-bottom: 16px;
+    border: 1px solid #f3f4f8;
+    border-radius: 25px;
+    background-color: #fefefe;
+    font-weight: bold;
+    padding: 16px;
+    cursor: pointer;
+}
+#game-container {
+	padding: 32px
+}
+#information-row {
+	display: flex;
+	margin-top: 16px;
+	margin-bottom: 48px;
+}
+#left-container, #right-container {
+	width: 50%;
+}
+#left-container .label {
+	font-weight: bold;
+}
+#right-container .label {
+	text-align: right;
+}
+#card-row > div {
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	margin-bottom: 128px;
+}
+.image-container {
+	width: 150px;
+    height: 150px;
+    margin-right: 16px;
+    box-sizing: border-box;
+    display: flex;
+    border-radius: 16px;
+}
+.image-container img {
+	margin: auto;
+}
+#name {
+	font-weight: bold;
+	text-align: initial;
+	margin-bottom: 32px;
+}
+#time {
+	height: 16px;
+	color: #9180ad;
+	font-weight: bold;
+	text-align: right;
+	margin-bottom: 32px;
+}
+#time img {
+	width: 14px;
+	margin-right: 8px;
+}
+.image-container {
+	background-color: white;
+}
+#canvas-row {
+	margin-bottom: 16px;
+}
+#canvas-container > div {
+	display: flex;
+	width: 100%;
+    justify-content: center;
+    margin-top: 32px;
+}
+.canvas {
+  padding: 10px;
+  border: 1px dotted #5febc8;
+  width: 150px;
+  height: 150px;
+  margin-right: 16px;
+  box-sizing: border-box;
+  display: flex;
+  border-radius: 16px;
+  background-color: #f5f6f9;
+}
+.canvas img {
+	margin: auto;
+}
+.label {
+	color: #c5cad5;
+	text-align: initial;
+}
