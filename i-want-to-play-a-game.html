@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="./css/styles.css">
+<body >
+	<div id="main">
+		<form id="form-container" @submit="validate" v-if="!sent">
+			<h1>Hello friend, tell me your name...</h1>
+			<input id="name" type="text" placeholder="Your name here" maxlength="50" @KeyPress="preventCharacters" @Change="changeHandler"></input>
+			<button type="submit">Let's go →</button>
+		</form>
+		<template> 
+			<div id="game-container" v-if="sent" :key="sorted">
+	    		<div id="information-row">
+	    			<div id="left-container">
+	    				<div id="name" v-text="'Good luck, ' + name + '!'"></div>
+	    				<div class="label">Pick up the right cards</div>
+	    			</div>
+	    			<div id="right-container">
+	    				<div id="time" v-html="icon + 'Your score: ' + time + ' seconds'"></div>
+	    				<div class="label">The faster the better!</div>
+	    			</div>
+	    		</div>
+	    		<div id="card-row">
+	    			<div >
+						<div v-for="(s, index) in sorted" class="image-container">
+							<img :id="s"  :class="s" :src="'./img/zoovu-' + s + '.svg'" :alt="s + ' image'" draggable='true' @DragStart="drag"/>
+						</div>
+		  			</div>
+	    		</div>
+	    		<div id="canvas-row">
+	    			<div class="label">...and drop them here to make the logo great again!</div>
+	    			<div id="canvas-container">
+	    				<div id="row-container">
+				  			<div v-for="(i, index) in images" :id="i" class="canvas" @Drop="drop" @DragOver="allowDrop"></div>
+				  		</div>
+	    			</div>
+	    		</div>
+    		</div>
+    	</template>
+	</div>
+	
+<script>
+var myObject = new Vue({
+  el: '#main',
+  data: {
+  	name: '',
+  	icon: "<img src='./img/clock.svg' alt='Clock icon'></img>",
+  	sent: false,
+  	time: 0,
+  	images: ["z","o","o","v","u"],
+	sorted: [],
+	started: false,
+	dragindex: 0,
+	dropindex: 0,
+	clone: "",
+	seconds: 10,
+	countUpInterval: "",
+	countDownInterval: ""
+  },
+  methods: {
+  	validate: function(event) {
+  		event.preventDefault();
+	    if(this.name.length < 3) {
+			alert("Please enter a name at least 3 characters long");    
+		} else {
+			this.sorted = this.images.sort(() => Math.random() - 0.5);
+			this.images = ["z","o","o","v","u"];
+			this.sent = true;
+		}
+  	},
+  	preventCharacters: function(event) {
+		if(event.charCode < 65 || (event.charCode > 90 && event.charCode < 97) || (event.charCode > 122)) {
+			event.preventDefault();
+		}
+	},
+	changeHandler: function(event) {
+	    this.name = event.target.value;
+	},
+	allowDrop: function(event) {
+		event.preventDefault();
+	},
+	drag: function (event) {
+		event.dataTransfer.setData("text", event.target.id);
+		if(this.started == false) {
+			this.started = true;
+			this.countUpInterval = setInterval(this.setTime, 1000);
+		}
+	},
+	setTime: function() {
+  		this.time++;
+	},
+	drop: function(event) {
+		event.preventDefault();
+		this.clone = event.target.cloneNode(true);
+		var data = event.dataTransfer.getData("text");
+		var target = event.target.id;
+		if(event.target.tagName == "DIV") {
+			if(target == data) {
+				event.target.append(document.getElementById(data));
+			} else {
+				event.target.append(document.getElementById(data));
+				this.time = this.time+10;
+			}
+		}
+		
+		this.checkCanvas();
+	},
+	checkCanvas: function() {
+		var children = $("#row-container").children(); 
+		var rightcards = 0;
+		for (var i = 0; i < children.length; i++) {
+			if(children[i].childNodes[0] != undefined && (children[i].id == children[i].childNodes[0].id)) {
+				rightcards++;
+			}
+		}
+		if (rightcards == children.length) {
+			clearInterval(this.countUpInterval);
+			this.countDownInterval = setInterval(this.countDownToReset, 1000);
+			alert("Congratulations, your time is " + this.time +" seconds");
+		}
+	},
+	countDownToReset: function () {
+		this.seconds--;
+		if(this.seconds == 0) {
+			this.time = 0;
+			this.sorted = this.images.sort(() => Math.random() - 0.5);
+			clearInterval(countDownInterval);
+			
+		}
+	}
+  }
+})
+</script>
+</body>
+</html>
